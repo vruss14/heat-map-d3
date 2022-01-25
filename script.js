@@ -32,25 +32,24 @@ function createHeatMap(data) {
     .attr("width", w)
     .attr("height", h)
 
-    // Set up axes; x is based on year (27 ticks so that ticks are approx 10 years apart)
+    let firstYear = d3.min(data.monthlyVariance, (item) => item.year);
+    let lastYear = d3.max(data.monthlyVariance, (item) => item.year);
+    let yrsRange = lastYear - firstYear;
+
+    // Set up axes; x is based on year (27 ticks so that ticks are approx. 10 years apart)
     // y axis is based on months; %B is D3 format for full year; months are zero-indexed in JS
+    // Domain on x axis has a buffer of one year on either side
 
     const xAxisScale = d3.scaleLinear()
-    .domain([d3.min(data.monthlyVariance, (item) => item.year), d3.max(data.monthlyVariance, (item) => item.year)])
+    .domain([firstYear - 1, lastYear + 1])
     .range([padding, w - padding])
 
-    const yAxisScale = d3.scaleBand()
-    .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+    const yAxisScale = d3.scaleTime()
+    .domain([new Date(0, 0, 0, 0, 0, 0, 0), new Date(0, 12, 0, 0, 0, 0, 0)])
     .range([padding, h - padding])
 
     const xAxis = d3.axisBottom(xAxisScale).tickFormat(d3.format('d')).ticks(27);
-    const yAxis = d3.axisLeft(yAxisScale).tickValues(yAxisScale.domain())
-    .tickFormat((month) => {
-        let date = new Date(0);
-        date.setUTCMonth(month);
-        let formatDate = d3.timeFormat('%B');
-        return formatDate(date)
-    });
+    const yAxis = d3.axisLeft(yAxisScale).tickFormat(d3.timeFormat('%B'));
 
     svg.append("g")
     .call(xAxis)
@@ -62,4 +61,36 @@ function createHeatMap(data) {
     .attr('id', 'y-axis')
     .attr("transform", "translate(" + padding + ",0)")
 
+    // Create the bars for each data point
+
+    svg.selectAll("rect")
+    .data(data.monthlyVariance)
+    .enter()
+    .append("rect")
+    .attr("class", "cell")
+    .attr('fill', 'black')
+    .attr("data-month", (d) => `${d.month - 1}`)
+    .attr("data-year", (d) => `${d.year}`)
+    .attr("data-temp", (d) => `${d.variance}`)
+    .attr('fill', (d => {
+        if(d.variance <= -1) {
+            return 'SteelBlue'
+        } else if (d.variance <= 0) {
+            return 'LightSkyBlue'
+        } else if (d.variance <= 1) {
+            return 'LightSalmon'
+        } else {
+            return 'DarkRed'
+        }
+    }))
+    .attr('height', ((h - (2 * padding)) / 12))
+    .attr('y', (d) => {
+        return yAxisScale(new Date(0, d.month - 1, 0, 0, 0, 0, 0))
+    })
+    .attr('width', () => {
+        return ((w - (2 * padding)) / yrsRange)
+    })
+    .attr('x', (d) => {
+        return xAxisScale(d.year);
+    })
 }

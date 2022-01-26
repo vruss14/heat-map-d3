@@ -14,30 +14,35 @@
             <div id="heat-map-container" class="container-fluid d-flex justify-content-center align-items-center flex-column bg-light my-auto ml-3 mr-3 p-2 col-9 border border-info rounded">
                 <h1 class="fs-3 text-center mt-3 mb-3" id="title">Global Land-Surface Temperature (Monthly)</h1>
                 <h2 class="fs-5 text-center mb-3" id="description">Temperatures from 1753 to 2015.</h2>
+                <h3 class="fs-5 text-center mb-3">Base temperature = 8.66 °C</h3>
+                <div id="tooltip"></div>
             </div>
 
-                <svg height="200" id="legend">
-                    <g>
-                        <rect x="0" y="0" width="5" height="40" fill="SteelBlue" />
-                        <text x="25" y="25" fill="white">Very Cold (&lt; 7.66 °C)</text>
-                    </g>
-    
-                    <g>
-                        <rect x="0" y="50" width="5" height="40" fill="LightSkyBlue" />
-                        <text x="25" y="75" fill="white">Cold (7.66 °C - 8.66 °C)</text>
-                    </g>
-    
-                    <g>
-                        <rect x="0" y="100" width="5" height="40" fill="LightSalmon" />
-                        <text x="25" y="125" fill="white">Warm (8.66 °C - 9.66 °C)</text>
-                    </g>
-    
-                    <g>
-                        <rect x="0" y="150" width="5" height="40" fill="DarkRed" />
-                        <text x="25" y="175" fill="white">Hot (&gt; 9.66 °C)</text>
-                    </g>
-                </svg>
+            <svg height="200" id="legend">
+                <g>
+                    <rect x="0" y="0" width="5" height="40" fill="SteelBlue" />
+                    <text x="25" y="25" fill="white">Very Cold (&lt; 7.66 °C)</text>
+                </g>
+
+                <g>
+                    <rect x="0" y="50" width="5" height="40" fill="LightSkyBlue" />
+                    <text x="25" y="75" fill="white">Cold (7.66 °C - 8.66 °C)</text>
+                </g>
+
+                <g>
+                    <rect x="0" y="100" width="5" height="40" fill="LightSalmon" />
+                    <text x="25" y="125" fill="white">Warm (8.66 °C - 9.66 °C)</text>
+                </g>
+
+                <g>
+                    <rect x="0" y="150" width="5" height="40" fill="DarkRed" />
+                    <text x="25" y="175" fill="white">Hot (&gt; 9.66 °C)</text>
+                </g>
+            </svg>
+
         </main>
+
+
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.3.0/d3.min.js"></script>
         <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>

@@ -36,6 +36,8 @@ function createHeatMap(data) {
     let lastYear = d3.max(data.monthlyVariance, (item) => item.year);
     let yrsRange = lastYear - firstYear;
 
+    let tooltip = d3.select('#tooltip');
+
     // Set up axes; x is based on year (27 ticks so that ticks are approx. 10 years apart)
     // y axis is based on months; %B is D3 format for full year; months are zero-indexed in JS
     // Domain on x axis has a buffer of one year on either side
@@ -93,4 +95,59 @@ function createHeatMap(data) {
     .attr('x', (d) => {
         return xAxisScale(d.year);
     })
+    .on('mouseover', (event) => {
+        let d = event.target.__data__;
+
+        tooltip.transition()
+        .style('visibility', 'visible')
+        .style('left', () => {
+            return (event.target.x + 30)
+        })
+        .style('top', event.target.y)
+
+        tooltip.attr('data-year', d.year)
+
+        let yearConversion = (num) => {
+            switch (num) {
+                case 1:
+                    return 'January';
+                    break;
+                case 2:
+                    return 'February';
+                case 3:
+                    return 'March';
+                case 4:
+                    return 'April';
+                case 5:
+                    return 'May';
+                case 6:
+                    return 'June';
+                case 7:
+                    return 'July';
+                case 8:
+                    return 'August';
+                case 9:
+                    return 'September';
+                case 10:
+                    return 'October';
+                case 11:
+                    return 'November';
+                case 12:
+                    return 'December';
+                default:
+                    break;
+            }
+
+        }
+        
+        tooltip.html(`
+        <p>${yearConversion(d.month)} ${d.year}</p>
+        <p>${(data.baseTemperature + d.variance).toPrecision(4)} °C</p>`)
+
+    })
+    .on('mouseout', () => {
+        tooltip.transition()
+        .style('visibility', 'hidden')
+    })
+
 }

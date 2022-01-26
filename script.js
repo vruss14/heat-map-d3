@@ -75,12 +75,17 @@ function createHeatMap(data) {
     .attr("data-year", (d) => `${d.year}`)
     .attr("data-temp", (d) => `${d.variance}`)
     .attr('fill', (d => {
-        if(d.variance <= -1) {
+
+        if(d.variance <= -2) {
+            return 'MidnightBlue'
+        } else if (d.variance <= -1) {
             return 'SteelBlue'
         } else if (d.variance <= 0) {
-            return 'LightSkyBlue'
+            return 'PowderBlue'
         } else if (d.variance <= 1) {
             return 'LightSalmon'
+        } else if (d.variance <= 2) {
+            return 'Tomato'
         } else {
             return 'DarkRed'
         }
@@ -111,7 +116,6 @@ function createHeatMap(data) {
             switch (num) {
                 case 1:
                     return 'January';
-                    break;
                 case 2:
                     return 'February';
                 case 3:
@@ -137,7 +141,6 @@ function createHeatMap(data) {
                 default:
                     break;
             }
-
         }
         
         tooltip.html(`

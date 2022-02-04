@@ -20,11 +20,13 @@ Overall, this was definitely a challenging project to create, but I feel like it
 
 ## Installation
 
-No installation steps are required to view this project. To view the page, visit the URL above. The application's source code can be found on GitHub here: https://github.com/vruss14/heat-map-d3.
+No installation steps are required to view this project. The application's source code can be found on GitHub here: https://github.com/vruss14/heat-map-d3.
 
 ## Usage
 
-This webpage is best viewed on desktop devices.
+This webpage is best viewed on desktop devices. Below is a screenshot of the page:
+
+![Heat Map Visualization](heat-map-desktop.png)
 
 ## Credits
 
